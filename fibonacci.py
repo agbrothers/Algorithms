@@ -4,7 +4,7 @@ import random as rd
 
 
 # Returns any desired member of the fibonacci sequence (with 0th entry 0)
-# Does not work past n = 92, as integer values become > than 32 bits
+# Does not work past n = 92, as integer values become > than 64 bits
 def fibonacci(n):
     initial_vector = np.array([[1],[0]])  # Vector with the first two members of the sequence
     fib_matrix = np.array([[1,1],         # Matrix representing the fibonacci transform
