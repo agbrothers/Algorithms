@@ -1,3 +1,4 @@
+# Runtime: O(N^2)
 import pandas as pd
 import numpy as np
 import random as rd
