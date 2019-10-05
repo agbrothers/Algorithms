@@ -1,5 +1,4 @@
-# Returns the nth element of the fibonacci sequence in logN time
-
+# Runtime: O(log(N))
 import numpy as np
 from numpy.linalg import matrix_power
 import random as rd
