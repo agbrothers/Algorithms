@@ -1,13 +1,15 @@
+# Implementing the Merge Sort Algorithm and Comparing it to brute force methods
 import numpy as np
 import time
-# Implementing the Merge Sort Algorithm and Comparing it to brute force methods
 
-# define arrays of integers we want sorted from lowest to highest value
+
+# Lists of integers we want sorted from lowest to highest value
 x = [1,43,24,5,6,24,8,69,0,5,35,5,7,3,42,9,46,8,7,35,65,-3]
 y = [20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1,0] # Worst case
 
+# Repeatedly walk through the list and switch the first elements that you see are out of order
 def brute_force(x):
-    start = time.time()
+    start = time.time() # Track Runtime
     i = 0
     sort = False
     while sort == False and i < 30:
@@ -42,18 +44,17 @@ def merge(a,b):
     return(list(c))
       
     
-# Sort any list via Divide and Conquer style recursion
-# Note the first time printed is the total runtime
+# Sort any list via Divide and Conquer style recursion.  Note the first time printed is the total runtime
 def merge_sort(x):
-    start = time.time()
-    mid = int(np.floor(len(x)/2))
+    start = time.time() # Track Runtime
+    mid = int(np.floor(len(x)/2)) # Split x into two ~equal sized lists
     a = x[:mid]
     b = x[mid:]
-    if len(x) == 2:
-        return(merge(a,b))
-    elif len(x) == 3:
-        return(merge(a,merge_sort(b)))
-    else:
+    if len(x) == 2:          # if the list is only 2 elements, sort them and return
+        return(merge(a,b)) 
+    elif len(x) == 3:        # deals with a list having odd elements
+        return(merge(a,merge_sort(b))) 
+    else:                    # run merge_sort again on our two smaller lists
         end = time.time()
         print(end-start)
         return(merge(merge_sort(a),merge_sort(b)))
