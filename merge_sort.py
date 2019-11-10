@@ -1,13 +1,10 @@
 import numpy as np
 import time
-import matplotlib.pyplot as plt
-
-
 # Implementing the Merge Sort Algorithm and Comparing it to brute force methods
 
-# define the array of integers we want sorted
+# define arrays of integers we want sorted from lowest to highest value
 x = [1,43,24,5,6,24,8,69,0,5,35,5,7,3,42,9,46,8,7,35,65,-3]
-y = [20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1,0]
+y = [20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1,0] # Worst case
 
 def brute_force(x):
     start = time.time()
@@ -26,7 +23,6 @@ def brute_force(x):
     end = time.time()
     print(end-start)
     return(x)
-
 
 
 # Combine two lists sorting elements from smallest to largest 
