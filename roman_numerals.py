@@ -1,4 +1,4 @@
-# In 20 minutes, write a code that can convert integers to Roman numerals 
+# Coding Challenge: In 20 minutes, write an algorithm that can convert integers to Roman Numerals 
 # from 1 through 1000, where
 # 
 #  I = 1
@@ -12,7 +12,7 @@
 #  D = 500
 #  M = 1000
 
-
+# IDEA - Iteratively add characters to our roman numeral string while reducing the integer value of our input
 def conv_to_roman(x):
     ans = ''
     
@@ -21,7 +21,7 @@ def conv_to_roman(x):
     
     while x > 0:
         
-        for i in range(7):
+        for i in range(len(char)):
             if x >= val[i]:
                 x -= val[i]
                 ans += char[i]
@@ -42,76 +42,3 @@ def conv_to_roman(x):
     # Runtime ~ O(nm)
     # where n = 7, the number of numerals we have
     #       m = number of reductions to get x to 0
-
-    """
-    RULES
-    
-    298   CCXCVIII
-    999   CMXCIX
-    
-    *
-    IF    ->    100 < x < 190
-          ->    C + remainder
-
-    IF    ->    90  ≤ x < 100
-          ->    X + C + remainder
-          
-    *      
-    IF    ->    50 ≤ x < 90
-          ->    L + remainder
-
-    IF    ->    40 ≤ x < 50
-          ->    X + L + remainder  
-          
-     
-    *      
-    IF    ->    10 < x < 19
-          ->    C + remainder
-
-    IF    ->    9  ≤ x < 10
-          ->    I + X + remainder
-    
-    
-    X
-    XX
-    XXX
-    XL
-    L
-    LX
-    LXX
-    LXXX
-    XC
-    CX
-    CXX
-    CXXX
-    CXL
-    CL
-    CLX
-    CLXX
-    CLXXX
-    CXC
-    CC
-    CCX
-    
-    
-    I
-    II
-    III
-    IV
-    V
-    VI
-    VII
-    VIII
-    IX
-    X
-    XI
-    XII
-    XIII
-    XIV
-    XV
-    XVI
-    XVII
-    XVIII
-    XIX
-    XX
-    """
