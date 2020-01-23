@@ -2,7 +2,7 @@ import numpy as np
 from PIL import Image
 
 
-""" IMAGE FUNCTIONS """
+""" IMAGE OPERATIONS """
 
 image = Image.open('images/albert_einstein.jpeg')
 width, height = image.size
