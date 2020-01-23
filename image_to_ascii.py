@@ -1,12 +1,10 @@
-import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 from PIL import Image
 
 
 """ IMAGE FUNCTIONS """
 
-image = Image.open('images/bruin.jpeg')
+image = Image.open('images/albert_einstein.jpeg')
 width, height = image.size
 image = image.convert('L') # convert the image to monochrome
 
@@ -20,10 +18,10 @@ image = image.resize((int(width/k), int(height/k)))
 # Create an array of brightness values for each pixel
 pix_val = np.asarray(image) 
 
-# Different Character lists (think palates)
+# Different Character Palates
 char = ['M','X','x','.'] 
 math_chars = ['∑','Ω','√','∫','ß','∂','µ','π','x','≤','≥','<','>','÷','≈','+','-','.',' ']  # math char's ∏∑Ω√∫ß∂yµπx≤≥<>÷≈=+-.
-alt_chars = ['@','#','M','X','=','•','.',' '] 
+alt_chars = ['@','#','M','X','=','•','.',' ']  # This one gives nice results
 
 # Create array to map characters to corresponding brightness levels
 brightness = np.linspace(0,256,len(char)) 
