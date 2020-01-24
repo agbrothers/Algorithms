@@ -5,7 +5,7 @@ from PIL import Image
 
 """ IMAGE OPERATIONS """
 
-image = Image.open('images/albert_einstein.jpeg')
+image = Image.open('images/steve_jobs.jpg')
 width, height = image.size
 image = image.convert('L') # convert the image to monochrome
 
