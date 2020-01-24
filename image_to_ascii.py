@@ -9,7 +9,7 @@ image = Image.open('images/steve_jobs.jpg')
 width, height = image.size
 image = image.convert('L') # convert the image to monochrome
 
-# Scale down the image to 100 pixel width
+# Scale down the image to a width of 100 pixels
 k = image.size[0]/100 
 image = image.resize((int(width/k), int(height/k)))
 
@@ -21,8 +21,8 @@ pix_val = np.asarray(image)
 
 # Different Character Palates
 char = ['M','X','x','.'] 
-math_chars = ['∑','Ω','√','∫','ß','∂','µ','π','x','≤','≥','<','>','÷','≈','+','-','.',' ']  # math char's ∏∑Ω√∫ß∂yµπx≤≥<>÷≈=+-.
-alt_chars = ['@','#','M','X','=','•','.',' ']  # This one gives nice results
+math_chars = ['∑','Ω','√','∫','ß','∂','µ','π','x','≤','≥','<','>','÷','≈','+','-','.',' ']
+alt_chars = ['@','#','M','X','=','•','.',' ']  # This one gives clean results
 
 # Create array to map characters to corresponding brightness levels
 brightness = np.linspace(0,256,len(char)) 
