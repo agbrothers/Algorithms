@@ -1,6 +1,7 @@
 import numpy as np
 from PIL import Image
 
+# A script for representing images as an array of ascii text characters as seen in my profile picture
 
 """ IMAGE OPERATIONS """
 
