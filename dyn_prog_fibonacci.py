@@ -1,4 +1,4 @@
-# Fibonacci Series using Dynamic Programming  
+# Obtain the nth fibonacci number using Dynamic Programming  
 def fibonacci(n):  
       
     # Taking 1st two fibonacci nubers as 0 and 1  
