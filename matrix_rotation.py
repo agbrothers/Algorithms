@@ -1,13 +1,13 @@
 import numpy as np
-import pandas as pd
 import random
 
+
+""" Coding Challenge, rotate the entries in a matrix by 90, 180, & 270 degrees """
 
 arr = np.array([[1,2,3],[4,5,6],[7,8,9]])
 rot = 90
 
 def rotateCCW(arr, angle):
-    
     # rotate 90 degrees counter-clockwise until angle/90 iterations occur
     k=0
     while k < angle/90:
@@ -19,7 +19,6 @@ def rotateCCW(arr, angle):
     return(arr)
 
 def rotateCW(arr, angle):
-    
     # rotate 90 degrees clockwise until angle/90 iterations occur
     k=0
     while k < angle/90:
