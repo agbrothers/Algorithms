@@ -1,50 +1,101 @@
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFont
+import argparse
 
-# A script for representing images as an array of ascii text characters as seen in my profile picture
+# Converts any image into a string of ascii characters with high resolution, see the obama.jpg file in this repo for reference!
 
-""" IMAGE OPERATIONS """
+def char_brightness(pix_val, weight):
+    brightness_arr = []
+    brightness_arr.append(sum(sum(pix_val[:7]))/126)  # top_M
+    brightness_arr.append(sum(sum(pix_val[:, :5]))/110)   # MID L
+    brightness_arr.append(sum(sum(pix_val[6:16, 5:13]))/80)  # MID M
+    brightness_arr.append(sum(sum(pix_val[:,  13:]))/110)   # MID R
+    brightness_arr.append(sum(sum(pix_val[15:]))/126)  # BOT M
+    brightness_arr += weight*[sum(sum(pix_val))/(22*18)]
+    return brightness_arr
 
-image = Image.open('images/steve_jobs.jpg')
-width, height = image.size
-image = image.convert('L') # convert the image to monochrome
 
-# Scale down the image to a width of 100 pixels
-k = image.size[0]/100 
-image = image.resize((int(width/k), int(height/k)))
+def char_palate(arr,weight=4, color=1):
+    brightness = []
+    for char in arr:
+        font = ImageFont.truetype('/Users/greysonbrothers/Desktop/ /- python/art/fonts/Menlo-Regular.ttf',size=30) 
+        img = Image.new(mode='1', size=(18, 22), color=(color))
+        d = ImageDraw.Draw(img)
+        d.text((0, -6), char, fill=(1-color), font=font)
+        pix_val = np.asarray(img) 
+        brightness.append(char_brightness(pix_val, weight))
+    return dict(zip(arr,brightness))
 
 
-""" ASCII CONVERSION """
-
-# Create an array of brightness values for each pixel
-pix_val = np.asarray(image) 
-
-# Different Character Palates
-char = ['M','X','x','.'] 
-math_chars = ['∑','Ω','√','∫','ß','∂','µ','π','x','≤','≥','<','>','÷','≈','+','-','.',' ']
-alt_chars = ['@','#','M','X','=','•','.',' ']  # This one gives clean results
-
-# Create array to map characters to corresponding brightness levels
-brightness = np.linspace(0,256,len(char)) 
-char_line = ''
-
-# Create a text file to write the ascii to
-ascii_text = open('ascii_image.txt', 'w')
-
-# Don't care about run time or space constraints, so naive approach works fine:
-# Loop through each pixel in the image and assign it to a char based on brightness
-for i in range(pix_val.shape[0]):
-    for j in range(pix_val.shape[1]):
-        l = 0
-        char_added = False
-        while char_added == False:
-            if pix_val[i][j] < brightness[l]:
-                char_line += (char[l])*2 #add two char's per pixel to compensate for line spacing distortion
-                char_added = True
-            l+=1
-        #char_line += ' '
+def char_map(local_pixels, chars):
+    mn = 10e10
+    letter = ''
+    for key in chars:
+        current = minkowski_dist(local_pixels,chars[key])
+        if current < mn:
+            mn = current
+            letter = key
+    return letter
         
-    ascii_text.write(char_line + '\n')
-    char_line = ''
 
-ascii_text.close()
+def minkowski_dist(v1,v2, p=1):
+    dist = []
+    for i in range(len(v1)):
+        dist.append(pow(np.abs(v1[i]-v2[i]),p))
+    return sum(dist)**(1/p)
+
+
+def get_neighbors(arr,x,y,weight=4):
+    nb = [arr[x-1, y], arr[x, y-2],   arr[x, y],   arr[x, y+2], arr[x+1, y]]
+    nb += weight*[arr[x, y]]
+    return(nb)
+
+
+def load_image(path, w=100):
+    image = Image.open(path)
+    width, height = image.size
+    image = image.convert('L') # convert the image to monochrome
+    k = image.size[0]/w  # /400 
+    image = image.resize((int(width/k)*2, int(height/k)))
+    return image
+
+
+def convert_image(path, palate, w=100, weight=4, exposure=0.5, color='b'):
+    c = 1 if color == 'b' else 0
+    e = exposure if color == 'b' else 1/exposure
+    img = load_image(path, w)
+    pix_val = np.abs(1 - c - (np.asarray(img)/255))**e
+    chars = char_palate(palate, weight=weight, color=c)
+    
+    current_line = ''
+    ascii_text = open('/Users/greysonbrothers/Desktop/ /- python/art/ascii_image_new.txt', 'w')
+    for x in range(2,img.size[1]-2):
+        for y in range(2,img.size[0]-2):
+            local_pixels = get_neighbors(pix_val,x,y, weight)
+            current_line += char_map(local_pixels, chars)
+        ascii_text.write(current_line + '\n')
+        print(current_line)
+        current_line = ''
+    ascii_text.close()
+    
+
+if __name__ == "__main__":
+
+    char = [' ','.','`','-','\'',',','_',':','=','^','"','+','•','~',';','|','(',')','<','>','%','?','c','s','{','}','!','I','[',']','i','t','v','x','z','1','r','a','e','l','o','n','u','T','f','w','3','7','J','y','5','$','4','g','k','p','q','F','P','b','d','h','G','O','V','X','E','Z','8','A','U','D','H','K','W','&','@','R','B','Q','#','0','M','N']
+    
+    parser = argparse.ArgumentParser(description='Cleaning audio data')
+    parser.add_argument('--file', '-f', type=str, default='images/obama.jpg',
+                        help='Filepath for the desired image')
+    parser.add_argument('--palate', '-p', type=str, default=char,
+                        help='Characters to build the image from, should be a python list')
+    parser.add_argument('--dimension', '-d',type=int, default=75,
+                        help='Number of characters to scale the width/resolution to')
+    parser.add_argument('--exposure', '-e', type=float, default=0.50,
+                        help='How much exposure is added (default 0.50), the closer to zero the brighter the image')
+    parser.add_argument('--weight', '-w', type=int, default=15,
+                        help='How much individual pixels are weighted, default 15')
+    parser.add_argument('--color', '-c', type=str, default='b',
+                        help='Color the characters w (white) or b (black)')    
+    args, _ = parser.parse_known_args()
+
+    convert_image(args.file, palate=args.palate, w=args.dimension, weight=args.weight, exposure=args.exposure, color=args.color)
