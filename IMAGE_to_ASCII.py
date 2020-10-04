@@ -2,7 +2,7 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 import argparse
 
-# Converts any image into a string of ascii characters with high resolution, see the ascii_obama.jpg file in this repo for reference!
+# Converts any image into a string of ascii characters with high resolution, see the ascii_obama.pdf file in this repo for reference!
 
 def char_brightness(pix_val, weight):
     brightness_arr = []
