@@ -28,7 +28,7 @@ def char_palate(arr,weight=4, color=1):
 
 
 def char_map(local_pixels, chars):
-    mn = 10e10
+    mn = float('inf')
     letter = ''
     for key in chars:
         current = minkowski_dist(local_pixels,chars[key])
