@@ -66,7 +66,7 @@ def convert_image(path, palate, w=100, weight=4, exposure=0.5, color='b'):
     c = 1 if color == 'b' else 0
     e = exposure if color == 'b' else 1/exposure
     img = load_image(path, w)
-    pix_val = np.abs(1 - c - (np.asarray(img)/255))**e
+    pix_val = (np.asarray(img)/255)**e
     chars = char_palate(palate, weight=weight, color=c)
     
     current_line = ''
