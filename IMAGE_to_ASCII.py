@@ -19,8 +19,8 @@ def char_brightness(pix_val, weight):
 
 def char_palate(arr,weight=4, color=1):
     brightness = []
+    font = ImageFont.truetype('/Users/greysonbrothers/Desktop/ /- python/art/fonts/Menlo-Regular.ttf',size=30)    
     for char in arr:
-        font = ImageFont.truetype('/Users/greysonbrothers/Desktop/ /- python/art/fonts/Menlo-Regular.ttf',size=30) 
         img = Image.new(mode='1', size=(18, 22), color=(color))
         d = ImageDraw.Draw(img)
         d.text((0, -6), char, fill=(1-color), font=font)
