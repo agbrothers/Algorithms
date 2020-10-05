@@ -11,7 +11,7 @@ def char_brightness(pix_val, weight):
     brightness_arr.append(sum(sum(pix_val[:7]))/126)  # top_M
     brightness_arr.append(sum(sum(pix_val[:, :5]))/110)   # MID L
     brightness_arr.append(sum(sum(pix_val[6:16, 5:13]))/80)  # MID M
-    brightness_arr.append(sum(sum(pix_val[:,  13:]))/110)   # MID R
+    brightness_arr.append(sum(sum(pix_val[:, 13:]))/110)   # MID R
     brightness_arr.append(sum(sum(pix_val[15:]))/126)  # BOT M
     brightness_arr += weight*[sum(sum(pix_val))/(22*18)]
     return brightness_arr
@@ -19,7 +19,7 @@ def char_brightness(pix_val, weight):
 
 def char_palate(arr,weight=4, color=1):
     brightness = []
-    font = ImageFont.truetype('/Users/greysonbrothers/Desktop/ /- python/art/fonts/Menlo-Regular.ttf',size=30)    
+    font = ImageFont.truetype('/Users/greysonbrothers/Desktop/ /- python/art/fonts/Menlo-Regular.ttf',size=30) 
     for char in arr:
         img = Image.new(mode='1', size=(18, 22), color=(color))
         d = ImageDraw.Draw(img)
@@ -52,7 +52,6 @@ def get_neighbors(arr,x,y,weight=4):
     nb += weight*[arr[x, y]]
     return(nb)
 
-
 def load_image(path, w=100):
     image = Image.open(path)
     width, height = image.size
@@ -74,9 +73,11 @@ def convert_image(path, palate, w=100, weight=4, exposure=0.5, color='b'):
     for x in range(2,img.size[1]-2):
         for y in range(2,img.size[0]-2):
             local_pixels = get_neighbors(pix_val,x,y, weight)
-            current_line += char_map(local_pixels, chars)
+            current_char = char_map(local_pixels, chars)
+            current_line += current_char
+            print(current_char, end='', flush=True)
         ascii_text.write(current_line + '\n')
-        print(current_line)
+        print()
         current_line = ''
     ascii_text.close()
     
